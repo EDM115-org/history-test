@@ -40,8 +40,20 @@
 - [x] Adding file name in description while uploading
 
 
-[![Deploy me 🥺](https://www.herokucdn.com/deploy/button.svg)](https://www.heroku.com/deploy?template=https://github.com/EDM115/unzip-bot/tree/beta)  
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/ENIia-?referralCode=EDM115)  
+---
+#### The legacy way
+```bash
+git clone -b master https://github.com/EDM115/unzip-bot.git
+cd unzip-bot
+pip3 install -r requirements.txt
+# Arch linux only ↓
+sudo pacman -S p7zip
+# Edit config.py with your own values
+bash start.sh
+```
+---
+**DONE 🥳 enjoy the bot !** Be sure to follow me on [Github](https://github.com/EDM115) and Star 🌟 this repo to show some support 🥺
+  
   
 ## Found a bug 🐞
 
