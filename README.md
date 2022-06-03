@@ -13,6 +13,18 @@
 # **THIS IS BETA BRANCH, DON'T BE MAD AT ME IF IT'S BUGGY 😞**
 [![Manual deploy of beta branch](https://github.com/EDM115/unzip-bot/actions/workflows/beta-auto-deploy.yml/badge.svg?branch=beta)](https://github.com/EDM115/unzip-bot/actions/workflows/beta-auto-deploy.yml)  
   
+## Features 👀
+- Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz`, …
+- Supports password protected archives
+- Extract archives from direct links
+- Broadcast messages to users
+- Ban / Unban users from using your bot
+- Send logs in a private channel/group
+- Can run only one extract per user at a time
+- Download speed : 4-12 Mb/s, can be even more if you're lucky
+- Upload speed : 15-25 Mb/s, unexpectedly
+- Fast to answer and process tasks
+- And some other features 🔥 Dive into the code to find them 🤭
   
 ## Bugs to fix and features to add 💀  
   
