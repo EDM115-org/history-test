@@ -1,17 +1,26 @@
 <div align="center">
-
+  
 # Unarchiver Bot
+
 ## A Telegram bot to extract various types of archives
+
+
 ![Unzip logo](https://telegra.ph/file/426207477776ffa00519f.png)
+
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+[![DeepSource](https://deepsource.io/gh/EDM115/unzip-bot.svg/?label=active+issues&show_trend=true&token=17SfwVx77dbrFlixtGdQsQNh)](https://deepsource.io/gh/EDM115/unzip-bot/?ref=repository-badge)
+
+
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+[![DeepSource](https://deepsource.io/gh/EDM115/unzip-bot.svg/?label=active+issues&show_trend=true&token=17SfwVx77dbrFlixtGdQsQNh)](https://deepsource.io/gh/EDM115/unzip-bot/?ref=repository-badge)
+
 </div>
-  
-  
+
+</br></br>
+
 ## Demo 🥰
 [@unzip_edm115bot](https://t.me/unzip_edm115bot)  
-⚠️ From 22h to 06h UTC+1, this beta version is running. Try it at your own risks…  
-  
-# **THIS IS BETA BRANCH, DON'T BE MAD AT ME IF IT'S BUGGY 😞**
-[![Manual deploy of beta branch](https://github.com/EDM115/unzip-bot/actions/workflows/beta-auto-deploy.yml/badge.svg?branch=beta)](https://github.com/EDM115/unzip-bot/actions/workflows/beta-auto-deploy.yml)  
+⚠️ From 00h to 08h UTC+1, the [beta](https://github.com/EDM115/unzip-bot/tree/beta) version is running. Try it at your own risks…  
   
 ## Features 👀
 - Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz`, …
@@ -26,31 +35,49 @@
 - Fast to answer and process tasks
 - And some other features 🔥 Dive into the code to find them 🤭
   
-## Bugs to fix and features to add 💀  
-  
-- [ ] The ETA isn't accurate
-- [ ] [Reply markup error](https://github.com/EDM115/unzip-bot/issues/2)
-- [ ] Adding a `/db` command that returns a list of all users + banned ones
-- [ ] ~~Looks like some "blank" users are added to the db, including a banned one~~ *Actually, the banned db can exist only if at least 1 value is inside. So, since owner have all rights, his ID can be added into it, the owner status will bypass it. But I noticed also other banned users while no `/ban` command were done. Investigating on this…*
-- [ ] Add a translation (start a CrowdIn dude)
-- [ ] ~~Some profile links doesn't work~~ **Private ones. But maybe I can force it…**
-- [ ] Get informations with smth like `/user {id}`, that returns his state (banned or not) + lastly uploaded files (5 last with link to channel/group message) + how many files he sent + size of all of them. The user could also get those infos with a `/me` command
-- [x] Add a `/dbdive` that returns an url where we can visualize the db online **CAN BE IMPROVED**
-- [ ] Add status of extraction in logs (uploaded, started, extracted, failed (+ error), what is the password, …)
-- [ ] Add more things to `/stats` like average speed, …
-- [ ] Add cancel process button for downloads and an emergency `/redbutton` one
-- [ ] Add an emergency `/restart` command that can be run **even** if the bot hanged up
-- [ ] Add permathumb support `/addthumb` `/delthumb`
-- [ ] Auto use `/clean` when a task failed
-- [ ] Keep the archives 5 hours in server just in case someone resend the same (no download twice)
-- [ ] Add a `/cleanall` for forcing the server reset and freeing space
-- [ ] Add group support. You add bot to group as admin, then reply to any file with `/extract`. Then you choose where goes the files (group or PM), and drop here do the instructions (pass or no, what to upload, …)
-  
-## Fixed/added :partying_face:
-- [x] Download speed stays constant, depending of what we have at begining. If the download started at 3 Mb/s, it will stay like that through all the process and can't evolve
-- [x] Unzipping normally a password protected archive makes crash the bot 😭
-- [x] Adding file name in description while uploading
+## Simple version 😌
+I made a special version if you only want to use it personally. Works smoother but with less features.  
+[**👉 Try it here 👈**](https://github.com/EDM115/unzip-bot/tree/personal_only)
 
+## Bugs to fix and features to add 💀  
+[**Check the beta branch to find them. They normally also are on the master one**](https://github.com/EDM115/unzip-bot/blob/beta/README.md#bugs-to-fix-and-features-to-add-)  
+Those are things that are fixed/added regarding to [`original repo`](https://github.com/EDM115/unzip-bot#license--copyright-%EF%B8%8F)
+  
+## Config vars 📖
+- `APP_ID` - Your APP ID. Get it from [my.telegram.org](my.telegram.org)
+- `API_HASH` - Your API_HASH. Get it from [my.telegram.org](my.telegram.org)
+- `BOT_OWNER` - Your Telegram Account ID. Get it from [@MissRose_bot](https://t.me/MissRose_bot) (Start the bot and send <samp>/info</samp> command).
+- `BOT_TOKEN` - Bot Token of Your Telegram Bot. Get it from [@BotFather](https://t.me/BotFather)
+- `MONGODB_URL` - Your MongoDB URL ([**tutorial here**](./CreateMongoDB.md))
+- `LOGS_CHANNEL` - Make a private channel and get its ID (search on Google if you don't know how to do). Using a group works as well, just add [`Rose`](https://t.me/MissRose_bot?startgroup=startbot), then send `/id` (In both cases, make sure to add your bot to the channel/group as an admin !)
+
+## Commands ✍️
+Copy-paste those to BotFather when he asks you for them  
+```
+clean - Remove your archives from my servers 🚮♻️
+mode - Upload things as Doc 📄 or Video 📹 (alias : /setmode)
+start - Alive check 😪 Also useful after updates 🥰
+```  
+Admin only commands (better to not include them)  
+```
+stats - Get detailed stats about users and server
+broadcast - Reply with this to a message to send it at every user
+ban - {id of user}
+unban - {id of user}
+```
+  
+## Deploy 🚧
+Deploying is easy 🥰 You can deploy this bot in Heroku or in a VPS ♥️  
+**Star 🌟 Fork 🍴 and Deploy 📤**
+
+> ⚠️ Note :
+> We are using arch linux. But why 🤔
+> 
+> Because arch’s p7zip package is the only maintained version of the [original p7zip](http://p7zip.sourceforge.net/) package with some additional features !
+---
+#### The lazy way 
+[![Deploy me 🥺](https://www.herokucdn.com/deploy/button.svg)](https://www.heroku.com/deploy?template=https://github.com/EDM115/unzip-bot/tree/master)  
+(if you're in a fork, make sure to replace the template URL with your repo’s one)
 
 ---
 #### The legacy way
@@ -68,6 +95,14 @@ bash start.sh
   
   
 ## Found a bug 🐞
-
-If you found a bug in this beta version please open an [issue](https://github.com/EDM115/unzip-bot/issues) or report it at [me](https://t.me/EDM115)  
+If you found a bug in this bot please open an [issue](https://github.com/EDM115/unzip-bot/issues) or report it at [me](https://t.me/EDM115)  
 Same if you have any feature request ☺️
+  
+## License & Copyright 👮‍♀️
+```
+Copyright (c) 2022 EDM115
+
+This Unarchiver Bot repository is licensed under MIT License (https://github.com/EDM115/unzip-bot/blob/master/LICENSE)
+Enjoy copying and modifying, but always mention me
+```
+• Inspired by Itz-fork/Nexa’s work, but with additional features and bug fixes. This is a maintained repo of the [original](https://github.com/Itz-fork/Unzipper-Bot)
