@@ -301,20 +301,11 @@ An error happened for `{}` 😕
 Please report this at @EDM115 if you think this is a serious error
     """
 
-    URL_UPLOAD = """
-`{}` is too huge to be uploaded to Telegram (`{}`)
+    REPORT_TEXT = """
+📢 --Report sent--
 
-Instead, I made it available here : {} 🥰
-    """
-
-    URL_ERROR = """
-An error happened for `{}` 😕
-
-**Error code :** `{}`
-**Error type :** `{}`
-**Error message :** `{}`
-
-Please report this at @EDM115 if you think this is a serious error
+**User :** `{}`
+**Message :** `{}`
     """
 
     LOG_CAPTION = """
