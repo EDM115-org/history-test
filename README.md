@@ -14,25 +14,24 @@
 
 </br></br>
 
-## Demo 🥰
+## Working bot 🥰
 [@unzip_edm115bot](https://t.me/unzip_edm115bot)  
   
 ## Features 👀
-- Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz`, …
+- Extract all format of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz`, …
 - Supports password protected archives
 - Extract archives from direct links
 - Broadcast messages to users
 - Ban / Unban users from using your bot
 - Send logs in a private channel/group
 - Can run only one extract per user at a time
-- Download speed : 4-12 Mb/s, can be even more if you're lucky
-- Upload speed : 15-25 Mb/s, unexpectedly
 - Fast to answer and process tasks
+- Thumbnail can be set
+- Problems can be directly reported
+- Can send a message to a specific user
+- Get infos about users
 - And some other features 🔥 Dive into the code to find them 🤭
-
-## Bugs to fix and features to add 💀  
-[**Check the v5 development followup**](https://github.com/EDM115/unzip-bot/issues/38)  
-Those are things that are fixed/added regarding to [`original repo`](https://github.com/EDM115/unzip-bot#license--copyright-%EF%B8%8F)
+  
   
 ## Config vars 📖
 - `APP_ID` - Your APP ID. Get it from [my.telegram.org](my.telegram.org)
