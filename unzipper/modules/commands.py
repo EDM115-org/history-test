@@ -1,4 +1,4 @@
-# Copyright (c) 2022 EDM115
+# Copyright (c) 2023 EDM115
 import os
 import re
 import shutil
@@ -199,16 +199,7 @@ async def set_mode_for_user(_, message: Message):
         reply_markup=Buttons.SET_UPLOAD_MODE_BUTTONS,
     )
 
-    await message.reply(
-        text=Messages.SELECT_UPLOAD_MODE_TXT.format(upload_mode),
-        reply_markup=Buttons.SET_UPLOAD_MODE_BUTTONS,
-    )
-
-
-@Client.on_message(filters.command("stats"))
-@Client.on_message(filters.command("stats"))
-async def send_stats(_, message: Message):
-    stats_msg = await message.reply("`Processing… ⏳`")
+async def get_stats(id):
     total, used, free = shutil.disk_usage(".")
     total = humanbytes(total)
     used = humanbytes(used)
@@ -223,13 +214,8 @@ async def send_stats(_, message: Message):
     uptime = timeformat_sec(time.time() - boottime)
     total_users = await count_users()
     total_banned_users = await count_banned_users()
-    if message.from_user.id == Config.BOT_OWNER:
-        await stats_msg.edit(
-            f"""
-**💫 Current bot stats 💫**
-    if message.from_user.id == Config.BOT_OWNER:
-        await stats_msg.edit(
-            f"""
+    if id == Config.BOT_OWNER:
+        stats_string = f"""
 **💫 Current bot stats 💫**
 
 **👥 Users :**
@@ -249,11 +235,10 @@ async def send_stats(_, message: Message):
 **🎛 Hardware usage :**
  ↳ **CPU usage :** `{cpu_usage}%`
  ↳ **RAM usage :** `{ram_usage}%`
- ↳ **Uptime :** `{uptime}`"""
-        )
+ ↳ **Uptime :** `{uptime}`
+"""
     else:
-        await stats_msg.edit(
-            f"""
+        stats_string = f"""
 **💫 Current bot stats 💫**
 
 **💾 Disk usage :**
@@ -263,11 +248,10 @@ async def send_stats(_, message: Message):
 **🎛 Hardware usage :**
  ↳ **CPU usage :** `{cpu_usage}%`
  ↳ **RAM usage :** `{ram_usage}%`
- ↳ **Uptime :** `{uptime}`"""
-        )
+ ↳ **Uptime :** `{uptime}`
+"""
     else:
-        await stats_msg.edit(
-            f"""
+        stats_string = f"""
 **💫 Current bot stats 💫**
 
 **💾 Disk usage :**
@@ -278,8 +262,16 @@ async def send_stats(_, message: Message):
 **🎛 Hardware usage :**
  ↳ **CPU usage :** `{cpu_usage}%`
  ↳ **RAM usage :** `{ram_usage}%`
- ↳ **Uptime :** `{uptime}`"""
-        )
+ ↳ **Uptime :** `{uptime}`
+"""
+
+    return stats_string
+
+@Client.on_message(filters.command("stats"))
+async def send_stats(_, message: Message):
+    stats_msg = await message.reply("`Processing… ⏳`")
+    stats_txt = await get_stats(message.from_user.id)
+    await stats_msg.edit(text=stats_txt, reply_markup=Buttons.REFRESH_BUTTON)
 
 
 async def _do_broadcast(message, user):
