@@ -5,8 +5,7 @@ from requests import post
 from requests import post
 
 from config import Config
-from unzipper import unzipperbot as Client
-from unzipper import unzipperbot as Client
+from unzipper import LOGGER, unzipperbot as Client
 
 mongodb = AsyncIOMotorClient(Config.MONGODB_URL)
 unzipper_db = mongodb["Unzipper_Bot"]
@@ -310,90 +309,7 @@ async def count_thumb_users():
 async def del_thumb_db(user_id):
     del_thumb_id = int(user_id)
     is_exist = await thumb_db.find_one({"_id": del_thumb_id})
-    print(is_exist)
-    if is_exist:
-        await user_db.delete_one({"_id": del_thumb_id})
-    return "media"
-
-
-# Db for how many files user uploaded
-uploaded_db = unzipper_db["uploaded_count_db"]
-
-
-async def get_uploaded(user_id):
-    up_count = await uploaded_db.find_one({"_id": user_id})
-    if up_count:
-        return up_count["uploaded_files"]
-    return 0
-
-
-async def update_uploaded(user_id, upload_count):
-    is_exist = await uploaded_db.find_one({"_id": user_id})
-    if is_exist:
-        new_count = await get_uploaded(user_id) + upload_count
-        await uploaded_db.update_one({"_id": user_id},
-                                     {"$set": {
-                                         "uploaded_files": new_count
-                                     }})
-    else:
-        await uploaded_db.insert_one({
-            "_id": user_id,
-            "uploaded_files": upload_count
-        })
-
-
-# Db for cloud_upload
-cloud_db = unzipper_db["cloud_db"]
-
-
-async def get_cloud(user_id):
-    return "https://api.bayfiles.com/upload"
-
-
-# DB for thumbnails
-thumb_db = unzipper_db["thumb_db"]
-
-
-async def get_thumb(user_id):
-    existing = await thumb_db.find_one({"_id": user_id})
-    if existing:
-        return existing["url"]
-    return None
-
-
-async def update_thumb(user_id, thumb_url, force):
-    existing = await thumb_db.find_one({"_id": user_id})
-    if existing:
-        if not force:
-            return existing["url"]
-        await thumb_db.update_one({"_id": user_id},
-                                  {"$set": {
-                                      "url": thumb_url
-                                  }})
-    else:
-        await thumb_db.insert_one({"_id": user_id, "url": thumb_url})
-
-
-async def upload_thumb(image):
-    with open(image, "rb") as file:
-        request = post("https://telegra.ph/upload",
-                       files={
-                           "file": ("file", file, "image/jpeg")
-                       }).json()[0]
-        return f"https://telegra.ph{request['src']}"
-
-
-async def get_thumb_users():
-    return [thumb_list async for thumb_list in thumb_db.find({})]
-
-
-async def count_thumb_users():
-    users = await thumb_db.count_documents({})
-    return users
-
-async def del_thumb_db(user_id):
-    del_thumb_id = int(user_id)
-    is_exist = await thumb_db.find_one({"_id": del_thumb_id})
+    LOGGER.warning(is_exist)
     if is_exist:
         await user_db.delete_one({"_id": del_thumb_id})
     else:
