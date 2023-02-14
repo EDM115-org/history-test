@@ -6,10 +6,7 @@ import time
 from asyncio import sleep
 from sys import executable
 
-import time
-from asyncio import sleep
-from sys import executable
-
+import git
 import psutil
 from pyrogram import Client, enums, filters
 from pyrogram.errors import FloodWait, RPCError
@@ -656,215 +653,16 @@ async def restart(_, message: Message):
     LOGGER.info(f"{message.from_user.id} : Restarting…")
     os.execl(executable, executable, "-m", "unzipper")
 
-
 @Client.on_message(
-    filters.private & filters.command("dbexport") & filters.user(Config.BOT_OWNER)
+    filters.private & filters.command("gitpull") & filters.user(Config.BOT_OWNER)
 )
-async def export_db(client, message):
-    await message.reply("🚧 WIP 🚧")
-    # Will use https://www.mongodb.com/docs/database-tools/mongoexport/ on command to export as CSV
-
-
-@Client.on_message(filters.command("commands"))
-async def getall_cmds(client, message):
-    await message.reply(
-        """
-Here is the list of the commands you can use (only in private btw) :
-
-**{send any file or URL}** : Prompt the extract dialog
-**/start** : To know if I'm online
-**/help** : Gives a simple help
-**/about** : Know more about me
-**/clean** : Remove your files from my server. Also useful if a task failed
-**/mode** : Change your upload mode (either `doc` or `media`)
-**/stats** : Know all the current stats about me. If you're running on Heroku, it's reset every day
-**/info** : Get full info about a [Message](https://docs.pyrogram.org/api/types/Message) (info returned by Pyrogram)
-**/addthumb** : Upload with a custom thumbnail (not permanant yet)
-**/delthumb** : Removes your thumbnail
-**/report** : Used by replying to a message, sends it to the bot owner (useful for bug report, or any question)
-**/commands** : This message
-
-**/admincmd** : Only if you are the Owner
-        """,
-        disable_web_page_preview=True,
-    )
-
-
-@Client.on_message(
-    filters.command("admincmd") & filters.user(Config.BOT_OWNER))
-async def getadmin_cmds(client, message):
-    await message.reply(
-        """
-Here's all the commands that only the owner (you) can use :
-
-**/commands** : For all the other commands
-**/broadcast** : Send something to all the users
-**/sendto {user_id}** : Same as broadcast but for a single user. Don't handle replies for now…
-**/ban {user_id}** : Ban an user. He no longer can use your bot, except if…
-**/unban {user_id}** : …you unban him. All his stats and settings stays saved after a ban
-**/user {user_id}** : Know more about the use of your bot by a single user
-**/user2 {user_id}** : Get full info about an [User](https://docs.pyrogram.org/api/types/User) (info returned by Pyrogram)
-**/self** : Get full info about me (info returned by Pyrogram)
-**/db** : Sends an unorganized list of all the user's id. I need to sort that
-**/dbdive** : Useless. Will provide a way to see it online, but MongoDB already does it
-**/redbutton** : Will fully restart bot + server
-**/cleanall** : Same as `/clean`, but for the whole server
-**/logs** : Send you the logs (all of them). Useful for bug tracking. Send them to **@EDM115** if you don't understand them/need help
-**/restart** : Does a basic restart, less intrusive as the `/redbutton` one
-**/dbexport** : Exports the whole database as CSV
-**/admincmd** : This message
-        """,
-        disable_web_page_preview=True,
-    )
-
-
-"""
-async def exec_message_f(client, message):
-    if message.from_user.id in AUTH_CHANNEL:
-        DELAY_BETWEEN_EDITS = 0.3
-        PROCESS_RUN_TIME = 100
-        cmd = message.text.split(" ", maxsplit=1)[1]
-
-        reply_to_id = message.message_id
-        if message.reply_to_message:
-            reply_to_id = message.reply_to_message.message_id
-
-        start_time = time.time() + PROCESS_RUN_TIME
-        process = await asyncio.create_subprocess_shell(
-            cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-        )
-        stdout, stderr = await process.communicate()
-        e = stderr.decode()
-        if not e:
-            e = "No Error"
-        o = stdout.decode()
-        if not o:
-            o = "No Output"
-        else:
-            _o = o.split("\n")
-            o = "`\n".join(_o)
-        OUTPUT = f"**QUERY:**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**stderr:** \n`{e}`\n**Output:**\n{o}"
-
-        if len(OUTPUT) > MAX_MESSAGE_LENGTH:
-            with io.BytesIO(str.encode(OUTPUT)) as out_file:
-                out_file.name = "exec.text"
-                await client.send_document(
-                    chat_id=message.chat.id,
-                    document=out_file,
-                    caption=cmd,
-                    disable_notification=True,
-                    reply_to_message_id=reply_to_id,
-                )
-            await message.delete()
-        else:
-            await message.reply_text(OUTPUT)
-
-async def eval_message_f(client, message):
-    if message.from_user.id in AUTH_CHANNEL:
-        status_message = await message.reply_text("Processing ...")
-        cmd = message.text.split(" ", maxsplit=1)[1]
-
-        reply_to_id = message.message_id
-        if message.reply_to_message:
-            reply_to_id = message.reply_to_message.message_id
-
-        old_stderr = sys.stderr
-        old_stdout = sys.stdout
-        redirected_output = sys.stdout = io.StringIO()
-        redirected_error = sys.stderr = io.StringIO()
-        stdout, stderr, exc = None, None, None
-
-        try:
-            await aexec(cmd, client, message)
-        except Exception:
-            exc = traceback.format_exc()
-
-        stdout = redirected_output.getvalue()
-        stderr = redirected_error.getvalue()
-        sys.stdout = old_stdout
-        sys.stderr = old_stderr
-
-        evaluation = ""
-        if exc:
-            evaluation = exc
-        elif stderr:
-            evaluation = stderr
-        elif stdout:
-            evaluation = stdout
-        else:
-            evaluation = "Success"
-
-        final_output = (
-            "<b>EVAL</b>: <code>{}</code>\n\n<b>OUTPUT</b>:\n<code>{}</code> \n".format(
-                cmd, evaluation.strip()
-            )
-        )
-
-        if len(final_output) > MAX_MESSAGE_LENGTH:
-            with open("eval.text", "w+", encoding="utf8") as out_file:
-                out_file.write(str(final_output))
-            await message.reply_document(
-                document="eval.text",
-                caption=cmd,
-                disable_notification=True,
-                reply_to_message_id=reply_to_id,
-            )
-            os.remove("eval.text")
-            await status_message.delete()
-        else:
-            await status_message.edit(final_output)
-
-async def aexec(code, client, message):
-    exec(
-        f"async def __aexec(client, message): "
-        + "".join(f"\n {l}" for l in code.split("\n"))
-    )
-    return await locals()["__aexec"](client, message)
-"""
-    cleaner = await message.reply("🚧 WIP 🚧\n\nCleaning…")
-    try:
-        shutil.rmtree(Config.DOWNLOAD_LOCATION)
-        await cleaner.edit("The whole server have been cleaned 😌")
-    except:
-        await cleaner.edit("An error happened 😕 probably because command is unstable")
-
-
-async def send_logs(user_id):
-    with open("unzip-log.txt", "rb") as doc_f:
-        try:
-            await unzipperbot.send_document(
-                chat_id=user_id,
-                document=doc_f,
-                file_name=doc_f.name,
-            )
-            LOGGER.info(f"Log file sent to {user_id}")
-        except FloodWait as f:
-            await sleep(f.value)
-        except RPCError as e:
-            unzipperbot.send_message(chat_id=user_id, text=e)
-
-
-@Client.on_message(
-    filters.private & filters.command("logs") & filters.user(Config.BOT_OWNER)
-)
-async def logz(_, message: Message):
-    await send_logs(message.from_user.id)
-
-
-@Client.on_message(
-    filters.private & filters.command("restart") & filters.user(Config.BOT_OWNER)
-)
-async def restart(_, message: Message):
-    folder_to_del = os.path.dirname(os.path.abspath(Config.DOWNLOAD_LOCATION))
-    shutil.rmtree(Config.DOWNLOAD_LOCATION)
-    LOGGER.info(f"Deleted {folder_to_del} folder successfully")
-    restarttime = time.strftime("%Y/%m/%d - %H:%M:%S")
-    await message.reply_text(
-        f"**ℹ️ Bot restarted successfully at **`{restarttime}`", quote=True
-    )
-    await send_logs(message.from_user.id)
-    LOGGER.info(f"{message.from_user.id} : Restarting…")
-    os.execl(executable, executable, "-m", "unzipper")
+async def pull_updates(_, message: Message):
+    repo = git.Repo("/app")
+    current = repo.head.commit
+    repo.remotes.origin.pull()
+    if current != repo.head.commit:
+        return message.reply("Pulled changes")
+    return message.reply("No changes")
 
 
 @Client.on_message(
