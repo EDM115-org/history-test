@@ -23,7 +23,8 @@ class Buttons:
     REFRESH_BUTTON = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("Refresh ♻️", callback_data="refresh")
+                InlineKeyboardButton("Refresh ♻️", callback_data="refresh"),
+                InlineKeyboardButton("Back 🏡", callback_data="megoinhome"),
             ]
         ]
     )
