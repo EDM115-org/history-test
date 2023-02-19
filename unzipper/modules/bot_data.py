@@ -295,6 +295,8 @@ Please report this at @EDM115 if you think this is a serious error
 
 **User :** `{}`
 **Message :** `{}`
+
+#Report #Action_Required
     """
 
     LOG_CAPTION = """
