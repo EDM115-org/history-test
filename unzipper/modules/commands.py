@@ -569,7 +569,7 @@ async def send_logs(user_id):
         except RPCError as e:
             unzipperbot.send_message(chat_id=user_id, text=e)
 
-async def clear_logs():
+def clear_logs():
     open('file.txt', 'w').close()
 
 @Client.on_message(
@@ -592,7 +592,7 @@ async def restart(_, message: Message):
     )
     await send_logs(message.from_user.id)
     LOGGER.info(f"{message.from_user.id} : Restarting…")
-    await clear_logs()
+    clear_logs()
     os.execl(executable, executable, "-m", "unzipper")
 
 @Client.on_message(
@@ -616,12 +616,6 @@ async def pull_updates(_, message: Message):
 async def export_db(_, message):
     await message.reply("🚧 WIP 🚧")
     # Will use https://www.mongodb.com/docs/database-tools/mongoexport/ on command to export as CSV
-
-@Client.on_message(
-    filters.private & filters.command("boot") & filters.user(Config.BOT_OWNER)
-)
-async def get_boottime_db(_, message: Message):
-    await message.reply(await get_boot())
 
 @Client.on_message(filters.command("commands"))
 async def getall_cmds(_, message):
@@ -654,7 +648,7 @@ async def getadmin_cmds(_, message):
         """
 Here's all the commands that only the owner (you) can use :
 
-**/commands** : For all the other commands
+**/gitpull** : Pulls the latest changes from GitHub
 **/broadcast** : Send something to all the users
 **/sendto {user_id}** : Same as broadcast but for a single user. Don't handle replies for now…
 **/ban {user_id}** : Ban an user. He no longer can use your bot, except if…
@@ -669,9 +663,8 @@ Here's all the commands that only the owner (you) can use :
 **/logs** : Send you the logs (all of them). Useful for bug tracking. Send them to **@EDM115** if you don't understand them/need help
 **/restart** : Does a basic restart, less intrusive as the `/redbutton` one
 **/dbexport** : Exports the whole database as CSV
-**/gitpull** : Pulls the latest changes from GitHub
-**/boot** : Get the bot's boot time
 **/admincmd** : This message
+**/commands** : For all the other commands
         """,
         disable_web_page_preview=True,
     )
