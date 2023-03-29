@@ -31,6 +31,7 @@ from unzipper.helpers.database import (
     get_uploaded,
     get_users_list,
     get_boot,
+    count_ongoing_tasks,
 )
 from unzipper.helpers.unzip_help import humanbytes, timeformat_sec
 from unzipper.modules.ext_script.custom_thumbnail import add_thumb, del_thumb
@@ -199,6 +200,7 @@ async def get_stats(id):
     uptime = timeformat_sec(time.time() - boottime)
     total_users = await count_users()
     total_banned_users = await count_banned_users()
+    ongoing_tasks = await count_ongoing_tasks()
 
     if id == Config.BOT_OWNER:
         stats_string = f"""
@@ -213,6 +215,7 @@ async def get_stats(id):
  ↳ **Total Disk Space :** `{total}`
  ↳ **Used :** `{used} - {disk_usage}%`
  ↳ **Free :** `{free}`
+ ↳ **Ongoing tasks :** `{ongoing_tasks}`
 
 **🌐 Network usage :**
  ↳ **Uploaded :** `{sent}`
@@ -231,19 +234,7 @@ async def get_stats(id):
  ↳ **Total Disk Space :** `{total}`
  ↳ **Used :** `{used} - {disk_usage}%`
  ↳ **Free :** `{free}`
-**🎛 Hardware usage :**
- ↳ **CPU usage :** `{cpu_usage}%`
- ↳ **RAM usage :** `{ram_usage}%`
- ↳ **Uptime :** `{uptime}`
-"""
-    else:
-        stats_string = f"""
-**💫 Current bot stats 💫**
-
-**💾 Disk usage :**
- ↳ **Total Disk Space :** `{total}`
- ↳ **Used :** `{used} - {disk_usage}%`
- ↳ **Free :** `{free}`
+ ↳ **Ongoing tasks :** `{ongoing_tasks}`
 
 **🎛 Hardware usage :**
  ↳ **CPU usage :** `{cpu_usage}%`
