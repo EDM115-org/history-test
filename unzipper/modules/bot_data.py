@@ -152,6 +152,12 @@ class Buttons:
         ]
     )
 
+    RATE_ME = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("⭐ Rate me", url="https://t.me/BotsArchive/2705")],
+        ]
+    )
+
 
 class Messages:
     START_TEXT = """
@@ -162,8 +168,6 @@ I can extract archives like `zip`, `rar`, `tar`, …
 
 **Made with ❤️ by @EDM115bots**
     """
-    # **This is BETA version !** May be a lot buggy, but with new features. Better waiting for the stable version at daytime… 🙂
-    # **This is BETA version !** May be a lot buggy, but with new features. Better waiting for the stable version at daytime… 🙂
 
     HELP_TXT = """
 **• How to extract 🤔**
@@ -198,18 +202,18 @@ I can extract archives like `zip`, `rar`, `tar`, …
 
 **• I wanna have help 🥺**
 
-    PM me at **@EDM115**
-    PM me at **@EDM115**
+    PM me at **@EDM115** or join the chat **@EDM115_chat**
     """
 
     ABOUT_TXT = """
-**About Unarchiver bot [BETA | v5.3.1]**
+**About Unarchiver bot [v5.4.0]**
 
-• **Language :** [Python 3.11.1](https://www.python.org/)
-• **Framework :** [Pyrogram 2.0.99](https://pyrogram.org/)
+• **Language :** [Python 3.11.3](https://www.python.org/)
+• **Framework :** [Pyrogram 2.0.106](https://pyrogram.org/)
 • **Source code :** [EDM115/unzip-bot](https://github.com/EDM115/unzip-bot/tree/beta)
 • **Developer :** [EDM115](https://github.com/EDM115)
 
+[**Rate me ⭐**](https://t.me/BotsArchive/2705)
 **Made with ❤️ by @EDM115bots**
     """
 
