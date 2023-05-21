@@ -3,10 +3,6 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # Inline buttons
-
-
-
-
 class Buttons:
     START_BUTTON = InlineKeyboardMarkup(
         [
@@ -158,7 +154,6 @@ class Buttons:
         ]
     )
 
-
 class Messages:
     START_TEXT = """
 Hi **{}** 👋, I'm **Unarchiver bot** 🥰
@@ -206,7 +201,7 @@ I can extract archives like `zip`, `rar`, `tar`, …
     """
 
     ABOUT_TXT = """
-**About Unarchiver bot [v5.4.0]**
+**About Unarchiver bot [v6.0.0]**
 
 • **Language :** [Python 3.11.3](https://www.python.org/)
 • **Framework :** [Pyrogram 2.0.106](https://pyrogram.org/)
@@ -214,7 +209,7 @@ I can extract archives like `zip`, `rar`, `tar`, …
 • **Developer :** [EDM115](https://github.com/EDM115)
 
 [**Rate me ⭐**](https://t.me/BotsArchive/2705)
-**Made with ❤️ by @EDM115bots**
+Made with ❤️ by @EDM115bots
     """
 
     LOG_TXT = """
@@ -431,32 +426,7 @@ Do you really want to delete your thumbnail ?
 
     PLS_REPLY = """
 You need to reply to a picture for saving it as custom thumbnail 🤓
-**Successfully changed upload mode to** `{}` ✅
     """
-
-    EXISTING_THUMB = """
-A thumbnail already have been saved 😅 What you wanna do ?
-• Checking the actual thumbnail
-• Replace it with the new one you just sent
-• Cancel
-    """
-
-    SAVING_THUMB = """
-Are you sure you want to save this thumbnail 🤔
-    """
-
-    SAVED_THUMBNAIL = """
-**Successfully saved this thumbnail ✅**
-    """
-
-    DELETED_THUMB = """
-**Successfully removed your thumbnail ✅**
-    """
-
-    PLS_REPLY = """
-You need to reply to a picture for saving it as custom thumbnail 🤓
-    """
-
 
 # List of error messages from p7zip
 ERROR_MSGS = ["Error", "Can't open as archive"]
