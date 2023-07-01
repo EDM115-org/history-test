@@ -12,6 +12,7 @@ class Buttons:
             ],
             [
                 InlineKeyboardButton("Stats 📊", callback_data="statscallback"),
+                InlineKeyboardButton("💸 Donate", callback_data="donatecallback"),
             ]
         ]
     )
@@ -85,8 +86,10 @@ class Buttons:
 
     SET_UPLOAD_MODE_BUTTONS = InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("As document 📁", callback_data="set_mode|doc")],
-            [InlineKeyboardButton("As media 📺", callback_data="set_mode|media")],
+            [
+                InlineKeyboardButton("As document 📁", callback_data="set_mode|doc"),
+                InlineKeyboardButton("As media 📺", callback_data="set_mode|media")
+            ],
         ]
     )
 
@@ -143,14 +146,19 @@ class Buttons:
 
     THUMB_DEL_2 = InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("Delete 🚮", callback_data="del_thumb")],
-            [InlineKeyboardButton("❌ Cancel", callback_data="nope_thumb")],
+            [
+                InlineKeyboardButton("Delete 🚮", callback_data="del_thumb"),
+                InlineKeyboardButton("❌ Cancel", callback_data="nope_thumb")
+            ],
         ]
     )
 
     RATE_ME = InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("⭐ Rate me", url="https://t.me/BotsArchive/2705")],
+            [
+                InlineKeyboardButton("⭐ Rate me", url="https://t.me/BotsArchive/2705"),
+                InlineKeyboardButton("💸 Donate", callback_data="donatecallback")
+            ],
         ]
     )
 
@@ -162,6 +170,8 @@ Hi **{}** 👋, I'm **Unarchiver bot** 🥰
 I can extract archives like `zip`, `rar`, `tar`, …
 
 **Made with ❤️ by @EDM115bots**
+
+**/donate** if you can 🥺
     """
 
     HELP_TXT = """
@@ -201,15 +211,33 @@ I can extract archives like `zip`, `rar`, `tar`, …
     """
 
     ABOUT_TXT = """
-**About Unarchiver bot [v6.0.0]**
+**About Unarchiver bot [v6.0.1]**
 
 • **Language :** [Python 3.11.3](https://www.python.org/)
 • **Framework :** [Pyrogram 2.0.106](https://pyrogram.org/)
 • **Source code :** [EDM115/unzip-bot](https://github.com/EDM115/unzip-bot/tree/beta)
 • **Developer :** [EDM115](https://github.com/EDM115)
 
-[**Rate me ⭐**](https://t.me/BotsArchive/2705)
+**[Rate me ⭐](https://t.me/BotsArchive/2705)**
 Made with ❤️ by @EDM115bots
+    """
+
+    DONATE_TEXT = """
+I'm going to be honest : **this bot costs me money**...
+Nothing's free on this world, however I try to keep this bot for free for as many people as possible
+I don't like to put restrictions, nor getting your PM's flooded with ads...
+
+So if you can, donate :)
+It helps out a ton, covers the costs (hosting, updating, ... 👨‍💻)
+
+__How ?__
+• **[Paypal](https://www.paypal.me/8EDM115)**
+• **[GitHub Sponsors](https://github.com/sponsors/EDM115)**
+• **[Directly in Telegram](https://t.me/EDM115bots/170)**
+• **[BuyMeACoffee](https://www.buymeacoffee.com/edm115)**
+• **[Send cryptos (not recommended)](https://edm115.shadd.eu.org/)**
+
+Thanks for your contribution 😊
     """
 
     LOG_TXT = """
