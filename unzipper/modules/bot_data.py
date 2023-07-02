@@ -211,7 +211,7 @@ I can extract archives like `zip`, `rar`, `tar`, …
     """
 
     ABOUT_TXT = """
-**About Unarchiver bot [v6.1.0]**
+**About Unarchiver bot [v6.1.1]**
 
 • **Language :** [Python 3.11.3](https://www.python.org/)
 • **Framework :** [Pyrogram 2.0.106](https://pyrogram.org/)
@@ -219,7 +219,7 @@ I can extract archives like `zip`, `rar`, `tar`, …
 • **Developer :** [EDM115](https://github.com/EDM115)
 
 **[Rate me ⭐](https://t.me/BotsArchive/2705)**
-Made with ❤️ by @EDM115bots
+Made with ❤️ by **@EDM115bots**
     """
 
     DONATE_TEXT = """
@@ -282,6 +282,13 @@ Select the extraction mode for that {} 👀
 **Successfully downloaded ✅**
 
 **Download time :** `{}`
+**Status :** Testing the archive… Please wait
+    """
+
+    AFTER_OK_TEST_TXT = """
+**Successfully tested ✅**
+
+**Test time :** `{}`
 **Status :** Extracting the archive… Please wait
 **Status :** Extracting the archive… Please wait
     """
