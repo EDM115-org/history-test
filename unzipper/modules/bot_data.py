@@ -225,7 +225,7 @@ I can extract archives like `zip`, `rar`, `tar`, …
     """
 
     ABOUT_TXT = """
-**About Unarchiver bot [v6.1.1]**
+**About Unarchiver bot [v6.2.0]**
 
 • **Language :** [Python 3.11.3](https://www.python.org/)
 • **Framework :** [Pyrogram 2.0.106](https://pyrogram.org/)
@@ -393,7 +393,6 @@ have been saved from the URL
 
 **What to do ?**
 
-   • **If you sent splitted archives (.001, .part1, .00001, …), then I can’t extract them 🙂** (for the moment)
    • Please make sure archive isn’t corrupted
    • Please make sure that you selected the right mode !
    • Also check if you sent the right password (it's case sensitive)

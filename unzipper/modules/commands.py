@@ -102,14 +102,13 @@ async def extract_archive(_, message: Message):
             reply_markup=Buttons.CHOOSE_E_U__BTNS,
         )
     elif message.document:
-        await unzip_msg.edit(
-            text=Messages.CHOOSE_EXT_MODE.format("file", "🗂️"),
-            reply_markup=Buttons.CHOOSE_E_F__BTNS,
-        )
-        await unzip_msg.edit(
-            text=Messages.CHOOSE_EXT_MODE.format("file", "🗂️"),
-            reply_markup=Buttons.CHOOSE_E_F__BTNS,
-        )
+        if re.search(r"\.\d{3}$", message.document.file_name):
+            await unzip_msg.edit("This file is splitted\nUse the **/merge** command")
+        else:
+            await unzip_msg.edit(
+                text=Messages.CHOOSE_EXT_MODE.format("file", "🗂️"),
+                reply_markup=Buttons.CHOOSE_E_F__BTNS,
+            )
     else:
         await unzip_msg.edit("Send a valid archive/URL 🙄")
 
