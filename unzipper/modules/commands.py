@@ -424,6 +424,7 @@ async def del_everything(_, message: Message):
     try:
         shutil.rmtree(Config.DOWNLOAD_LOCATION)
         await cleaner.edit("The whole server have been cleaned 😌")
+        os.mkdir(Config.DOWNLOAD_LOCATION)
     except:
         await cleaner.edit("An error happened 😕 probably because command is unstable")
 
@@ -455,8 +456,11 @@ async def logz(_, message: Message):
 )
 async def restart(_, message: Message):
     folder_to_del = os.path.dirname(os.path.abspath(Config.DOWNLOAD_LOCATION))
-    shutil.rmtree(Config.DOWNLOAD_LOCATION)
-    LOGGER.info(f"Deleted {folder_to_del} folder successfully")
+    try:
+        shutil.rmtree(Config.DOWNLOAD_LOCATION)
+        LOGGER.info(f"Deleted {folder_to_del} folder successfully")
+    except:
+        pass
     restarttime = time.strftime("%Y/%m/%d - %H:%M:%S")
     await message.reply_text(
         f"**ℹ️ Bot restarted successfully at **`{restarttime}`", quote=True
