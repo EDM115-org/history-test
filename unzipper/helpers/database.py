@@ -45,7 +45,6 @@ async def get_users_list():
 
 
 # Banned users database
-# Banned users database
 b_user_db = unzipper_db["banned_users_db"]
 
 async def add_banned_user(user_id):
@@ -315,7 +314,6 @@ async def clear_cancel_tasks():
     await cancel_tasks.delete_many({})
 
 
-
 # DB for merge tasks
 
 merge_tasks = unzipper_db["merge_tasks"]
@@ -350,7 +348,8 @@ async def get_merge_task_message_id(user_id):
         return is_exist["message_id"]
     else:
         return False
-    
+
+
 async def clear_merge_tasks():
     await merge_tasks.delete_many({})
 
