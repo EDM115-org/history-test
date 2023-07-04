@@ -89,15 +89,18 @@ async def extract_archive(_, message: Message):
     user_id = message.from_user.id
     download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
     if os.path.isdir(download_path):
-        return await unzip_msg.edit(
+        await unzip_msg.edit(
             "Already one process is running, don't spam 😐\n\nWanna clear your files from my server ? Then just send **/clean** command"
         )
+        return
     if await get_merge_task(user_id):
         if message.document and re.search(r"\.(?:part\d+\.rar|z\d+|r\d{2})$", message.document.file_name):
             await del_merge_task(user_id)
             await del_ongoing_task(user_id)
-            return await unzip_msg.edit("Those type of splitted files can't be processed yet")
-        return await unzip_msg.delete()
+            await unzip_msg.edit("Those type of splitted files can't be processed yet")
+            return
+        await unzip_msg.delete()
+        return
     if message.text and (re.match(https_url_regex, message.text)):
         await unzip_msg.edit(
             text=Messages.CHOOSE_EXT_MODE.format("URL", "🔗"),
@@ -234,8 +237,8 @@ async def broadcast_this(_, message: Message):
     bc_msg = await message.reply("`Processing… ⏳`")
     r_msg = message.reply_to_message
     if not r_msg:
-        return await bc_msg.edit("Reply to a message to broadcast it 📡")
-        return await bc_msg.edit("Reply to a message to broadcast it 📡")
+        await bc_msg.edit("Reply to a message to broadcast it 📡")
+        return
     users_list = await get_users_list()
     # trying to broadcast
     await bc_msg.edit("Broadcasting has started, this may take a while 😪")
@@ -264,11 +267,13 @@ async def send_this(_, message: Message):
     sd_msg = await message.reply("`Processing… ⏳`")
     r_msg = message.reply_to_message
     if not r_msg:
-        return await sd_msg.edit("Reply to a message to send it 📡")
+        await sd_msg.edit("Reply to a message to send it 📡")
+        return
     try:
         user_id = message.text.split(None, 1)[1]
     except:
-        return await sd_msg.edit("Give an user id to send a message")
+        await sd_msg.edit("Give an user id to send a message")
+        return
     await sd_msg.edit("Sending it, please wait… 😪")
     send = await _do_broadcast(message=r_msg, user=user_id)
     if send == 200:
@@ -284,7 +289,8 @@ async def report_this(_, message: Message):
     r_msg = message.reply_to_message
     u_id = message.from_user.id
     if not r_msg:
-        return await sd_msg.edit("Reply to a message to report it to @EDM115")
+        await sd_msg.edit("Reply to a message to report it to @EDM115")
+        return
     await sd_msg.edit("Sending it, please wait… 😪")
     await unzipperbot.send_message(
         chat_id=Config.LOGS_CHANNEL,
@@ -298,7 +304,8 @@ async def ban_user(_, message: Message):
     try:
         user_id = message.text.split(None, 1)[1]
     except:
-        return await ban_msg.edit("Give an user id to ban 😈")
+        await ban_msg.edit("Give an user id to ban 😈")
+        return
     bdb = await add_banned_user(user_id)
     db = await del_user(user_id)
     text = ""
@@ -319,7 +326,8 @@ async def unban_user(_, message: Message):
     try:
         user_id = message.text.split(None, 1)[1]
     except:
-        return await unban_msg.edit("Give an user id to unban 😇")
+        await unban_msg.edit("Give an user id to unban 😇")
+        return
     db = await add_user(user_id)
     bdb = await del_banned_user(user_id)
     text = ""
@@ -351,7 +359,8 @@ async def info_user(_, message: Message):
     try:
         user_id = message.text.split(None, 1)[1]
     except:
-        return await info_user_msg.edit("Give an user id 🙂")
+        await info_user_msg.edit("Give an user id 🙂")
+        return
     up_count = get_uploaded(user_id)
     if up_count == "":
         up_count = "Unable to fetch"
@@ -365,11 +374,13 @@ async def info_user2(_, message: Message):
     try:
         user_id = message.text.split(None, 1)[1]
     except:
-        return await user2_msg.edit("Give an user id/username 🙂")
+        await user2_msg.edit("Give an user id/username 🙂")
+        return
     try:
         infos = await unzipperbot.get_users(user_id)
     except:
-        return await user2_msg.edit("Error happened. The user ID/username is probably invalid")
+        await user2_msg.edit("Error happened. The user ID/username is probably invalid")
+        return
     if not isinstance(user_id, int):
         try:
             user_id = infos.id
@@ -486,8 +497,10 @@ async def pull_updates(_, message: Message):
     time.sleep(2)
     if current != repo.head.commit:
         await git_reply.edit("✅ Pulled changes, restarting...")
-        return await restart(_, message)
-    return await git_reply.edit("No changes")
+        await restart(_, message)
+    else:
+        await git_reply.edit("No changes")
+
 
 @Client.on_message(filters.command("donate"))
 async def donate_help(_, message: Message):
