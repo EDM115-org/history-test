@@ -16,10 +16,12 @@ async def get_gdrive_id(gdrive_url):
             return file_id
 
         if "/open?id=" in gdrive_url:
+        if "/open?id=" in gdrive_url:
             start_index = gdrive_url.find("/open?id=") + len("/open?id=")
             file_id = gdrive_url[start_index:]
             return file_id
 
+        if "/file/d/" in gdrive_url and "/view" in gdrive_url:
         if "/file/d/" in gdrive_url and "/view" in gdrive_url:
             start_index = gdrive_url.find("/file/d/") + len("/file/d/")
             end_index = gdrive_url.find("/view", start_index)
@@ -27,11 +29,12 @@ async def get_gdrive_id(gdrive_url):
             return file_id
 
         if "/uc?id=" in gdrive_url:
+        if "/uc?id=" in gdrive_url:
             start_index = gdrive_url.find("/uc?id=") + len("/uc?id=")
             end_index = gdrive_url.find("&", start_index)
             file_id = gdrive_url[start_index:end_index]
             return file_id
-        
+
         if "/uc?export=download&id=" in gdrive_url:
             start_index = gdrive_url.find("/uc?export=download&id=") + len("/uc?export=download&id=")
             end_index = gdrive_url.find("&", start_index)
@@ -96,7 +99,7 @@ async def anonfiles_dl(url):
     except Exception as e:
         LOGGER.info(e)
         return None
-    
+
 
 async def krakenfiles_dl(url):
     try:
