@@ -14,9 +14,11 @@
 </br></br>
 
 ## Working bot 🥰
+
 [@unzip_edm115bot](https://t.me/unzip_edm115bot)  
   
 ## Features 👀
+
 - Extract all format of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz`, …
 - Supports password protected archives
 - Extract archives from direct links
@@ -29,10 +31,13 @@
 - Problems can be directly reported
 - Can send a message to a specific user
 - Get infos about users
+- Can rename files
+- Able to process splitted archives (`.001`)
 - And some other features 🔥 Dive into the code to find them 🤭
   
   
 ## Config vars 📖
+
 - `APP_ID` - Your APP ID. Get it from [my.telegram.org](my.telegram.org)
 - `API_HASH` - Your API_HASH. Get it from [my.telegram.org](my.telegram.org)
 - `BOT_OWNER` - Your Telegram Account ID. Get it from [@MissRose_bot](https://t.me/MissRose_bot) (Start the bot and send <samp>/info</samp> command).
@@ -41,7 +46,9 @@
 - `LOGS_CHANNEL` - Make a private channel and get its ID (search on Google if you don't know how to do). Using a group works as well, just add [`Rose`](https://t.me/MissRose_bot?startgroup=startbot), then send `/id` (In both cases, **make sure to add your bot to the channel/group as an admin !**)
 
 ## Commands ✍️
+
 Copy-paste those to BotFather when he asks you for them  
+
 ```
 commands - Get commands list
 mode - Upload as Doc 📄 / Media 📺
@@ -53,6 +60,7 @@ help - In case you need 😭
 ```  
   
 ## Deploy 🚧
+
 Deploying is easy 🥰 You can deploy this bot in Heroku or in a VPS ♥️  
 **Star 🌟 Fork 🍴 and Deploy 📤**
 
@@ -60,13 +68,18 @@ Deploying is easy 🥰 You can deploy this bot in Heroku or in a VPS ♥️
 > We are using arch linux. But why 🤔
 > 
 > Because arch’s p7zip package is the only maintained version of the [original p7zip](http://p7zip.sourceforge.net/) package with some additional features
+
 ---
+
 #### The lazy way 
+
 [![Deploy me 🥺](https://www.herokucdn.com/deploy/button.svg)](https://www.heroku.com/deploy?template=https://github.com/EDM115/unzip-bot)  
 (if you're in a fork, make sure to replace the template URL with your repo’s one)
 
 ---
+
 #### The easy way
+
 + Install [Docker](https://www.docker.com/) then restart your computer
 ```bash
 git clone -b master https://github.com/EDM115/unzip-bot.git
@@ -77,7 +90,9 @@ docker build -t unzip-bot .
 + On Optional settings, fill the env variables
 
 ---
+
 #### The legacy way
+
 ```bash
 git clone -b master https://github.com/EDM115/unzip-bot.git
 cd unzip-bot
@@ -87,22 +102,28 @@ pip3 install -r requirements.txt
 `sudo pacman -S p7zip`
 
 ##### Edit config.py with your own values
+
 ```bash
 start.sh
 ```
 
 ---
+
 **DONE 🥳 enjoy the bot !** Be sure to follow me on [Github](https://github.com/EDM115) and Star 🌟 this repo to show some support 🥺
   
 ## How to Build after changes ?
+
 #### Trust GitHub Actions
+
 + Add new Actions secrets to the repo :
   + `DOCKER_USERNAME` : all in lowercase
   + `DOCKER_TOKEN` : one with all rights, here : https://hub.docker.com/settings/security
 + Go in Actions tab, 2 workflows are here for ya :
   + `Build Docker Image` : Check if it builds without errors
   + `Publish Docker Image` : Rebuild && publish
+
 #### Do it manually
+
 + Go in the repo's folder
 ```bash
 docker build -t unzip-bot .
@@ -122,14 +143,17 @@ docker push edm115/unzip-bot:latest
 *(same, replace accordingly)*
   
 ## Found a bug 🐞
+
 If you found a bug in this bot please open an [issue](https://github.com/EDM115/unzip-bot/issues) or report it on Telegram : [@EDM115](https://t.me/EDM115)  
 Same if you have any feature request 😉
   
 ## License & Copyright 👮‍♀️
+
 ```
 Copyright (c) 2022 - 2023 EDM115
 
 This Unarchiver Bot repository is licensed under MIT License (https://github.com/EDM115/unzip-bot/blob/master/LICENSE)
 Enjoy copying and modifying, but always mention me
 ```
+
 • Inspired by Itz-fork/Nexa’s work, but with additional features and bug fixes. This is a maintained repo of the [original](https://github.com/Itz-fork/Unzipper-Bot)
