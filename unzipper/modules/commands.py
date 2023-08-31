@@ -21,7 +21,7 @@ from unzipper.helpers.database import (
     add_merge_task,
     add_user,
     add_banned_user,
-    add_banned_user,
+    add_vip_user,
     check_user,
     count_banned_users,
     count_banned_users,
@@ -54,7 +54,7 @@ from .bot_data import Buttons, Messages
 https_url_regex = r"((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*"
 
 
-@Client.on_message(filters.private)
+@unzipperbot.on_message(filters.private)
 async def _(_, message: Message):
     await check_user(message)
     uid = message.from_user.id
@@ -78,7 +78,7 @@ async def _(_, message: Message):
             return
 
 
-@Client.on_message(filters.command("start"))
+@unzipperbot.on_message(filters.command("start"))
 async def start_bot(_, message: Message):
     try:
         await message.reply_text(
@@ -91,7 +91,7 @@ async def start_bot(_, message: Message):
         await start_bot(_, message)
 
 
-@Client.on_message(filters.private & filters.command("clean"))
+@unzipperbot.on_message(filters.private & filters.command("clean"))
 async def clean_my_files(_, message: Message):
     try:
         await message.reply_text(text=Messages.CLEAN_TXT, reply_markup=Buttons.CLN_BTNS)
@@ -100,7 +100,7 @@ async def clean_my_files(_, message: Message):
         await clean_my_files(_, message)
 
 
-@Client.on_message(filters.command("help"))
+@unzipperbot.on_message(filters.command("help"))
 async def help_me(_, message: Message):
     try:
         await message.reply_text(text=Messages.HELP_TXT, reply_markup=Buttons.ME_GOIN_HOME)
@@ -109,7 +109,7 @@ async def help_me(_, message: Message):
         await help_me(_, message)
 
 
-@Client.on_message(filters.command("about"))
+@unzipperbot.on_message(filters.command("about"))
 async def about_me(_, message: Message):
     try:
         await message.reply_text(
@@ -122,7 +122,7 @@ async def about_me(_, message: Message):
         await about_me(_, message)
 
 
-@Client.on_message(
+@unzipperbot.on_message(
     filters.incoming & filters.private & filters.document
     | filters.regex(https_url_regex)
 )
@@ -156,7 +156,7 @@ async def extract_archive(_, message: Message):
         await extract_archive(_, message)
 
 
-@Client.on_message(filters.private & filters.command("cancel"))
+@unzipperbot.on_message(filters.private & filters.command("cancel"))
 async def cancel_task_by_user(_, message):
     idtodel = message.id - 1
     try:
@@ -166,7 +166,7 @@ async def cancel_task_by_user(_, message):
     await message.reply(Messages.CANCELLED)
 
 
-@Client.on_message(filters.private & filters.command("merge"))
+@unzipperbot.on_message(filters.private & filters.command("merge"))
 async def merging(_, message: Message):
     try:
         merge_msg = await message.reply(Messages.MERGE)
@@ -176,7 +176,7 @@ async def merging(_, message: Message):
         await merging(_, message)
 
 
-@Client.on_message(filters.private & filters.command("done"))
+@unzipperbot.on_message(filters.private & filters.command("done"))
 async def done_merge(_, message: Message):
     try:
         await message.reply(
@@ -188,7 +188,7 @@ async def done_merge(_, message: Message):
         await done_merge(_, message)
 
 
-@Client.on_message(filters.private & filters.command("mode"))
+@unzipperbot.on_message(filters.private & filters.command("mode"))
 async def set_mode_for_user(_, message: Message):
     try:
         upload_mode = await get_upload_mode(message.from_user.id)
@@ -248,7 +248,7 @@ async def get_stats(id):
     return stats_string
 
 
-@Client.on_message(filters.command("stats"))
+@unzipperbot.on_message(filters.command("stats"))
 async def send_stats(_, message: Message):
     try:
         stats_msg = await message.reply(Messages.PROCESSING2)
@@ -273,7 +273,7 @@ async def _do_broadcast(message, user):
         return 400
 
 
-@Client.on_message(filters.command("broadcast") & filters.user(Config.BOT_OWNER))
+@unzipperbot.on_message(filters.command("broadcast") & filters.user(Config.BOT_OWNER))
 async def broadcast_this(_, message: Message):
     bc_msg = await message.reply(Messages.PROCESSING2)
     r_msg = message.reply_to_message
@@ -313,7 +313,7 @@ async def broadcast_this(_, message: Message):
         ))
 
 
-@Client.on_message(filters.command("sendto") & filters.user(Config.BOT_OWNER))
+@unzipperbot.on_message(filters.command("sendto") & filters.user(Config.BOT_OWNER))
 async def send_this(_, message: Message):
     sd_msg = await message.reply(Messages.PROCESSING2)
     r_msg = message.reply_to_message
@@ -333,7 +333,7 @@ async def send_this(_, message: Message):
         await sd_msg.edit(Messages.SEND_FAILED.format(user_id))
 
 
-@Client.on_message(filters.command("report"))
+@unzipperbot.on_message(filters.command("report"))
 async def report_this(_, message: Message):
     sd_msg = await message.reply(Messages.PROCESSING2)
     r_msg = message.reply_to_message
@@ -349,7 +349,7 @@ async def report_this(_, message: Message):
     await sd_msg.edit(Messages.REPORT_DONE)
 
 
-@Client.on_message(filters.command("ban") & filters.user(Config.BOT_OWNER))
+@unzipperbot.on_message(filters.command("ban") & filters.user(Config.BOT_OWNER))
 async def ban_user(_, message: Message):
     ban_msg = await message.reply(Messages.PROCESSING2)
     try:
@@ -370,7 +370,7 @@ async def ban_user(_, message: Message):
         await ban_msg.edit(Messages.BANNED.format(user_id))
 
 
-@Client.on_message(filters.command("unban") & filters.user(Config.BOT_OWNER))
+@unzipperbot.on_message(filters.command("unban") & filters.user(Config.BOT_OWNER))
 async def unban_user(_, message: Message):
     unban_msg = await message.reply(Messages.PROCESSING2)
     try:
@@ -391,7 +391,7 @@ async def unban_user(_, message: Message):
         await unban_msg.edit(Messages.UNBANNED.format(user_id))
 
 
-@Client.on_message(filters.private & filters.command("info"))
+@unzipperbot.on_message(filters.private & filters.command("info"))
 async def me_stats(_, message: Message):
     me_info = await message.chat.ask(
         text=Messages.INFO,
@@ -400,7 +400,7 @@ async def me_stats(_, message: Message):
     _.stop_listening(identifier_pattern=(message.chat.id, None, None))
 
 
-@Client.on_message(filters.command("user") & filters.user(Config.BOT_OWNER))
+@unzipperbot.on_message(filters.command("user") & filters.user(Config.BOT_OWNER))
 async def info_user(_, message: Message):
     await message.reply(Messages.USER)
     info_user_msg = await message.reply(Messages.PROCESSING2)
@@ -415,7 +415,7 @@ async def info_user(_, message: Message):
     await info_user_msg.edit(Messages.USER_INFO.format(user_id, up_count))
 
 
-@Client.on_message(filters.command("user2") & filters.user(Config.BOT_OWNER))
+@unzipperbot.on_message(filters.command("user2") & filters.user(Config.BOT_OWNER))
 async def info_user2(_, message: Message):
     user2_msg = await message.reply(Messages.PROCESSING2)
     try:
@@ -436,13 +436,13 @@ async def info_user2(_, message: Message):
     await user2_msg.edit(Messages.USER2_INFO.format(infos, user_id))
 
 
-@Client.on_message(filters.command("self") & filters.user(Config.BOT_OWNER))
+@unzipperbot.on_message(filters.command("self") & filters.user(Config.BOT_OWNER))
 async def info_self(_, message: Message):
     self_infos = await unzipperbot.get_me()
     await message.reply(f"`{self_infos}`")
 
 
-@Client.on_message(
+@unzipperbot.on_message(
     filters.private & filters.command("getthumbs") & filters.user(Config.BOT_OWNER)
 )
 async def get_all_thumbs(_, message: Message):
@@ -471,7 +471,7 @@ async def get_all_thumbs(_, message: Message):
             LOGGER.error(e)
 
 
-@Client.on_message(
+@unzipperbot.on_message(
     filters.private & filters.command("redbutton") & filters.user(Config.BOT_OWNER)
 )
 async def red_alert(_, message: Message):
@@ -480,7 +480,7 @@ async def red_alert(_, message: Message):
     # but also need to stop currently ongoing processes…
 
 
-@Client.on_message(filters.private & filters.command("maintenance") & filters.user(Config.BOT_OWNER))
+@unzipperbot.on_message(filters.private & filters.command("maintenance") & filters.user(Config.BOT_OWNER))
 async def maintenance_mode(_, message: Message):
     mstatus = await get_maintenance()
     await message.reply(Messages.MAINTENANCE.format(mstatus))
@@ -494,17 +494,17 @@ async def maintenance_mode(_, message: Message):
     await message.reply(Messages.MAINTENANCE_DONE.format(newstate))
 
 
-@Client.on_message(filters.private & filters.command("addthumb"))
+@unzipperbot.on_message(filters.private & filters.command("addthumb"))
 async def thumb_add(_, message: Message):
     await add_thumb(unzipperbot, message)
 
 
-@Client.on_message(filters.private & filters.command("delthumb"))
+@unzipperbot.on_message(filters.private & filters.command("delthumb"))
 async def thumb_del(_, message: Message):
     await del_thumb(message)
 
 
-@Client.on_message(
+@unzipperbot.on_message(
     filters.private & filters.command("cleanall") & filters.user(Config.BOT_OWNER)
 )
 async def del_everything(_, message: Message):
@@ -517,7 +517,7 @@ async def del_everything(_, message: Message):
         await cleaner.edit(Messages.NOT_CLEANED)
 
 
-@Client.on_message(
+@unzipperbot.on_message(
     filters.private & filters.command("cleantasks") & filters.user(Config.BOT_OWNER)
 )
 async def del_tasks(_, message: Message):
@@ -560,14 +560,14 @@ def clear_logs():
     open('file.txt', 'w').close()
 
 
-@Client.on_message(
+@unzipperbot.on_message(
     filters.private & filters.command("logs") & filters.user(Config.BOT_OWNER)
 )
 async def logz(_, message: Message):
     await send_logs(message.from_user.id)
 
 
-@Client.on_message(
+@unzipperbot.on_message(
     filters.private & filters.command("restart") & filters.user(Config.BOT_OWNER)
 )
 async def restart(_, message: Message):
@@ -587,7 +587,7 @@ async def restart(_, message: Message):
     os.execl(executable, executable, "-m", "unzipper")
 
 
-@Client.on_message(
+@unzipperbot.on_message(
     filters.private & filters.command("gitpull") & filters.user(Config.BOT_OWNER)
 )
 async def pull_updates(_, message: Message):
@@ -603,17 +603,105 @@ async def pull_updates(_, message: Message):
         await git_reply.edit(Messages.NO_PULL)
 
 
-@Client.on_message(filters.command("donate"))
+@unzipperbot.on_message(filters.command("donate"))
 async def donate_help(_, message: Message):
     await message.reply(Messages.DONATE_TEXT)
 
 
-@Client.on_message(filters.command("vip"))
+@unzipperbot.on_message(filters.command("vip"))
 async def vip_help(_, message: Message):
     await message.reply(Messages.VIP_INFO)
 
 
-@Client.on_message(
+@unzipperbot.on_message(
+    filters.private & filters.command("addvip") & filters.user(Config.BOT_OWNER)
+)
+async def add_vip(_, message: Message):
+    if message.reply_to_message is None:
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    message = message.reply_to_message
+    # parse the message as an array, one line = one element. the message is in UTF-8
+    messagearray = message.text.splitlines()
+    if len(messagearray) != 13:
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    # check if the message is in the correct format. everything is a string but needs to be converted sometimes to int or bool
+    """
+    user_id: {int} The user ID
+    subscription: {date} When the subscription starts
+    ends: {date} When the subscription ends
+    used: {str} [paypal, telegram, sponsor, bmac] Which platform had been used
+    billed: {str} [monthly, yearly] At which frequency the user is billed
+    early: {bool} Is the user a early supporter (can be obtained only the first 3 months)
+    donator: {bool} Is the user also a donator
+    started: {date} When does the user ever started a subscription
+    successful: {int} How many successful payments had been done
+    gap: {bool} Is there been any gap between payments
+    gifted: {bool} If the user had been gifted a Premium plan (enjoy discounts)
+    referral: {str} Your referral code (enjoy discounts x2) encoded using base58check
+    lifetime: {bool} A special perk that only few people can have
+
+    date is in format %Y-%m-%dT%H:%M:%SZ
+    """
+    if not messagearray[0].isdigit():
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    user_id = int(messagearray[0])
+    dateregex = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z"
+    if not re.match(dateregex, messagearray[1]):
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    subscription = messagearray[1]
+    if not re.match(dateregex, messagearray[2]):
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    ends = messagearray[2]
+    if messagearray[3] not in ["paypal", "telegram", "sponsor", "bmac"]:
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    used = messagearray[3]
+    if messagearray[4] not in ["monthly", "yearly"]:
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    billed = messagearray[4]
+    if messagearray[5] not in ["True", "False"]:
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    early = messagearray[5] == "True"
+    if messagearray[6] not in ["True", "False"]:
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    donator = messagearray[6] == "True"
+    if not re.match(dateregex, messagearray[7]):
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    started = messagearray[7]
+    if not messagearray[8].isdigit():
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    successful = int(messagearray[8])
+    if messagearray[9] not in ["True", "False"]:
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    gap = messagearray[9] == "True"
+    if messagearray[10] not in ["True", "False"]:
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    gifted = messagearray[10] == "True"
+    if not re.match(r"[a-zA-Z0-9]{1,34}", messagearray[11]):
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    referral = messagearray[11]
+    if messagearray[12] not in ["True", "False"]:
+        await message.reply(Messages.VIP_REQUIRED_MESSAGE)
+        return
+    lifetime = messagearray[12] == "True"
+    await add_vip_user(user_id, subscription, ends, used, billed, early, donator, started, successful, gap, gifted, referral, lifetime)
+
+
+
+@unzipperbot.on_message(
     filters.private & filters.command("dbexport") & filters.user(Config.BOT_OWNER)
 )
 async def export_db(_, message):
@@ -621,7 +709,7 @@ async def export_db(_, message):
     # Will use https://www.mongodb.com/docs/database-tools/mongoexport/ on command to export as CSV
 
 
-@Client.on_message(filters.command("commands"))
+@unzipperbot.on_message(filters.command("commands"))
 async def getall_cmds(_, message):
     await message.reply(
         Messages.COMMANDS_LIST,
@@ -629,7 +717,7 @@ async def getall_cmds(_, message):
     )
 
 
-@Client.on_message(filters.command("admincmd") & filters.user(Config.BOT_OWNER))
+@unzipperbot.on_message(filters.command("admincmd") & filters.user(Config.BOT_OWNER))
 async def getadmin_cmds(_, message):
     await message.reply(
         Messages.ADMINCMD,
