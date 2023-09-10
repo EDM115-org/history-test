@@ -50,7 +50,7 @@ async def gdrive_dl(url):
         downloadable_link = f"https://drive.google.com/uc?id={file_id}&export=download"
         return downloadable_link
     except ValueError as e:
-        LOGGER.info(e)
+        LOGGER.warning(e)
         return None
 
 
@@ -62,7 +62,7 @@ async def yandisk_dl(url):
         download_link = r.json()["href"]
         return download_link
     except Exception as e:
-        LOGGER.info(e)
+        LOGGER.warning(e)
         return None
 
 
@@ -72,7 +72,7 @@ async def onedrive_dl(url):
         downloadable_link = f"https://api.onedrive.com/v1.0/shares/u!{file_id}/root/content"
         return downloadable_link
     except Exception as e:
-        LOGGER.info(e)
+        LOGGER.warning(e)
         return None
 
 
@@ -82,7 +82,7 @@ async def mediafire_dl(url):
         downloadable_link = f"https://download{file_id}.mediafire.com/file/{file_id}/file"
         return downloadable_link
     except Exception as e:
-        LOGGER.info(e)
+        LOGGER.warning(e)
         return None
 
 
@@ -97,7 +97,7 @@ async def anonfiles_dl(url):
         download_link = r.json()["data"]["file"]["url"]["full"]
         return download_link
     except Exception as e:
-        LOGGER.info(e)
+        LOGGER.warning(e)
         return None
 
 
@@ -109,7 +109,7 @@ async def krakenfiles_dl(url):
         download_link = r.url
         return download_link
     except Exception as e:
-        LOGGER.info(e)
+        LOGGER.warning(e)
         return None
 
 
@@ -121,5 +121,5 @@ async def wetransfer_dl(url):
         download_link = r.json()["direct_link"]
         return download_link
     except Exception as e:
-        LOGGER.info(e)
+        LOGGER.warning(e)
         return None
