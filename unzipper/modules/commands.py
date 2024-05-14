@@ -587,7 +587,8 @@ async def send_logs(user_id):
 
 
 def clear_logs():
-    open("file.txt", "w").close()
+    with open("file.txt", "w") as f:
+        f.close()
 
 
 @unzipperbot.on_message(
