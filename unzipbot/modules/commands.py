@@ -619,9 +619,9 @@ async def get_all_thumbs(_, message: Message):
     filters.command("redbutton") & filters.user(Config.BOT_OWNER)
 )
 async def red_alert(_, message: Message):
-    await message.reply("🚧 WIP 🚧")
     # restart the whole bot, maybe using execl
     # but also need to stop currently ongoing processes…
+    await message.reply("🚧 WIP 🚧")
 
 
 @unzipbot_client.on_message(
@@ -788,8 +788,8 @@ async def vip_help(_, message: Message):
     filters.command("dbexport") & filters.user(Config.BOT_OWNER)
 )
 async def export_db(_, message):
-    await message.reply("🚧 WIP 🚧")
     # Will use https://www.mongodb.com/docs/database-tools/mongoexport/ on command to export as CSV
+    await message.reply("🚧 WIP 🚧")
 
 
 @unzipbot_client.on_message(filters.command("commands"))
