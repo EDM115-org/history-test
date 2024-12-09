@@ -894,8 +894,8 @@ async def exec_command(_, message):
         executable="/bin/bash",
     )
     stdout, stderr = await process.communicate()
-    e = stderr.decode()
-    o = stdout.decode()
+    e = stderr.decode("utf-8", errors="replace")
+    o = stdout.decode("utf-8", errors="replace")
 
     e = e or "No error"
     o = o or "No output"
