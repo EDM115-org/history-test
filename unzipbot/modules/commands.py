@@ -38,6 +38,7 @@ from unzipbot.helpers.database import (
 )
 from unzipbot.helpers.unzip_help import (
     calculate_memory_limit,
+    clear_directory_contents,
     humanbytes,
     timeformat_sec,
 )
@@ -764,7 +765,8 @@ async def get_all_thumbs(_, message: Message):
                 ),
             )
         except RPCError as e:
-            LOGGER.error(msg=e)
+            # LOGGER.error(msg=e)
+            pass
 
 
 @unzipbot_client.on_message(
@@ -839,11 +841,10 @@ async def del_everything(_, message: Message):
     )
 
     try:
-        shutil.rmtree(Config.DOWNLOAD_LOCATION)
+        clear_directory_contents(Config.DOWNLOAD_LOCATION)
         await cleaner.edit(
             text=messages.get(file="commands", key="CLEANED", user_id=uid)
         )
-        os.mkdir(path=Config.DOWNLOAD_LOCATION)
     except:
         await cleaner.edit(
             text=messages.get(file="commands", key="NOT_CLEANED", user_id=uid)
@@ -887,9 +888,11 @@ async def send_logs(user_id):
             message = await unzipbot_client.send_document(
                 chat_id=user_id, document=doc_f, file_name=doc_f.name
             )
+            """
             LOGGER.info(
                 msg=messages.get(file="commands", key="LOG_SENT", extra_args=user_id)
             )
+            """
         except (FloodWait, FloodPremiumWait) as f:
             await sleep(f.value)
             message = await unzipbot_client.send_document(
@@ -921,12 +924,14 @@ async def logz(_, message: Message):
 async def restart(_, message: Message):
     try:
         folder_to_del = os.path.dirname(os.path.abspath(Config.DOWNLOAD_LOCATION))
-        shutil.rmtree(Config.DOWNLOAD_LOCATION)
+        clear_directory_contents(Config.DOWNLOAD_LOCATION)
+        """
         LOGGER.info(
             msg=messages.get(
                 file="commands", key="DELETED_FOLDER", extra_args=folder_to_del
             )
         )
+        """
     except:
         pass
 
@@ -1059,8 +1064,8 @@ async def eval_command(_, message):
     cmd = message.text.split(" ", maxsplit=1)[1]
 
     stdout, stderr, result = await aexec(code=cmd, client=_, message=message)
-    LOGGER.info(msg="stdout: " + stdout)
-    LOGGER.info(msg="stderr: " + stderr)
+    # LOGGER.info(msg="stdout: " + stdout)
+    # LOGGER.info(msg="stderr: " + stderr)
 
     if result is not None:
         evaluation = str(result)
